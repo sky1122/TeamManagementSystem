@@ -1,14 +1,28 @@
 import './App.css';
-
+import {Routes, Route} from "react-router-dom";
+import AddTeamMember from './components/AddTeamMember';
+import Footer from './components/Footer';
+import Nav from './components/Nav';
+import TeamList from './components/TeamList';
+import TeamMemberList from './components/TeamMemberList';
 function App() {
   return (
     <div className="App">
-      <div className="text-center">
-        <h1 className="text-center text-4xl text-blue-500">App.js</h1>
-        <button className="btn btn-primary">Primary</button>
-        </div>
+      <Nav />
+      <Routes>
+      {/* <TeamMemberList/> */}
+      <Route path='/Team' element={<TeamList/>} />
+      <Route path='Team/:TeamId' element={<TeamMemberList />} />
+      {/* <AddTeamMember/> */}
+      </Routes>
+      <Footer />
     </div>
   );
 }
+
+
+
+
+
 
 export default App;
