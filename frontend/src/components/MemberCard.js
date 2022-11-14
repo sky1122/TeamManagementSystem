@@ -6,31 +6,27 @@ const DELETE_MEMBER_API = "http://127.0.0.1:8000/api/member/"
 export default function Card(member) {
     const [errorMessage, setErrorMessage] = useState('');
     const handleOnDelet = (e) => {
-        console.log("handleOnDelet");
         e.preventDefault();
 
-        console.log("card")
-        console.log(member.member.id)
         if (member.member.role === "0") {
             setErrorMessage('Cannot delete Admin');
         }
-        console.log(errorMessage);
-        console.log(errorMessage === "");
+
         if (member.member.role === "1") {
             axios({
                 method: 'delete',
                 url: DELETE_MEMBER_API + member.member.id,
             }).then(function (response) {
                 console.log(response);
+                if (response.status === 204) {
+                    window.location.reload();
+                } else {
+                    setErrorMessage("Something went wrong");
+                }
             }).catch(function (error) {
                 console.log(error);
             });
         }
-
-
-        // axios.post(POST_MEMBER_API, member)
-        //     .catch((err) => { console.error(err) });
-        // this.props.history.push('/Team')
     };
 
     return (
@@ -50,10 +46,9 @@ export default function Card(member) {
                     <img src="https://placeimg.com/192/192/people" />
                 </figure>
                 <div className="card-body">
-                    <h2 className="card-title">Name: {member.member.first_name} {member.member.last_name}</h2>
+                    <h2 className="card-title">Name: {member.member.first_name} {member.member.last_name} {member.member.role === "0" ? "(admin)" : ""}</h2>
                     <p>Phone: {member.member.phone}</p>
                     <p>Email: {member.member.email}</p>
-                    <p>Role: {member.member.role === "1" ? "regular" : "admin"}</p>
                     <div className="card-actions justify-end">
                         <button className="btn btn-error" onClick={handleOnDelet}>Delete</button>
                         <label htmlFor={member.member.id} className="btn">Edit</label>

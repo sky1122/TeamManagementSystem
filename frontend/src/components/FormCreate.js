@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const POST_MEMBER_API = "http://127.0.0.1:8000/api/member";
 export default function Info(Props) {
+    const [message, setMessage] = useState('');
     let initialValues = {
         first_name: "",
         last_name: "",
@@ -22,8 +23,8 @@ export default function Info(Props) {
         }
         checkedValue = member.member.role;
     }
-    let teamId = '';
 
+    let teamId = '';
     if ("teamId" in Props) {
         teamId = Props.teamId;
     }
@@ -44,9 +45,14 @@ export default function Info(Props) {
     }
 
     const handleOnSumbit = (e) => {
-        console.log("handleOnSumbit");
         e.preventDefault();
-        
+        let flag = true;
+        if (values.first_name === "" || values.last_name === "" || values.email === "" || values.phone === "") {
+            alert("Please fill all the fields");
+            flag = false
+        }
+
+
         const member = {
             first_name: values.first_name,
             last_name: values.last_name,
@@ -55,23 +61,23 @@ export default function Info(Props) {
             role: checkedOption,
             team: teamId
         };
-        console.log(member);
-        console.log(POST_MEMBER_API);
-        axios({
-            method: 'post',
-            url: POST_MEMBER_API,
-            data: member
-        }).then(function (response) {
+        if (flag) {
+            axios({
+                method: 'post',
+                url: POST_MEMBER_API,
+                data: member
+            }).then(function (response) {
                 console.log(response);
-        }).catch(function (error) {
+                if (response.status === 201) {
+                    setMessage("Member added successfully");
+                    window.location.reload();
+                } else {
+                    setMessage("Member not added");
+                }
+            }).catch(function (error) {
                 console.log(error);
-        });
-
-        
-        // axios.post(POST_MEMBER_API, member)
-        //     .catch((err) => { console.error(err) });
-        // this.props.history.push('/Team')
-
+            });
+        }
     };
 
 
@@ -150,6 +156,7 @@ export default function Info(Props) {
                         </div>
                     </div>
                     <button className="btn btn-info" type='submit' >Submit</button>
+                    {message && (<p className="error"> {message} </p>)}
                 </form>
             </div>
 

@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const PUT_MEMBER_API = "http://127.0.0.1:8000/api/member/";
 export default function FormUpdate(Props) {
+    const [errorMessage, setErrorMessage] = useState('');
     let initialValues = {
         first_name: "",
         last_name: "",
@@ -37,7 +38,6 @@ export default function FormUpdate(Props) {
     }
 
     const handleOnSumbit = (e) => {
-        console.log("handleOnSumbit");
         e.preventDefault();
 
         const data = {
@@ -56,6 +56,12 @@ export default function FormUpdate(Props) {
             data: data
         }).then(function (response) {
             console.log(response);
+            if (response.status === 200) {
+                setErrorMessage("Member updated successfully");
+                window.location.reload();
+            } else {
+                setErrorMessage("Error updating member");
+            }
         }).catch(function (error) {
             console.log(error);
         });
@@ -111,7 +117,7 @@ export default function FormUpdate(Props) {
                     <div>
                         <div className="form-control">
                             <label className="label cursor-pointer">
-                                <span className="label-text">Regulat - Can't delete members</span>
+                                <span className="label-text">Regulat</span>
                                 <input
                                     type="radio"
                                     name="radio-10"
@@ -124,7 +130,7 @@ export default function FormUpdate(Props) {
                         </div>
                         <div className="form-control">
                             <label className="label cursor-pointer">
-                                <span className="label-text">Admin - Can delete members</span>
+                                <span className="label-text">Admin</span>
                                 <input
                                     type="radio"
                                     name="radio-10"
@@ -136,6 +142,7 @@ export default function FormUpdate(Props) {
                         </div>
                     </div>
                     <button className="btn btn-info" type='submit' >Update</button>
+                    {errorMessage && (<p className="error"> {errorMessage} </p>)}
                 </form>
             </div>
 

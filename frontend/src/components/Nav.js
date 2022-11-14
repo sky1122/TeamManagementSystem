@@ -14,12 +14,6 @@ export default function Nav() {
                 <Link to="/Team"><a className="btn btn-accent">Get started</a></Link>
                 </div>
             </div>
-
-
-
-
-
-
         </div>
     )
 }
