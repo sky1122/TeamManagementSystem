@@ -27,6 +27,7 @@ export default function Card(member) {
             });
         }
 
+        
         // axios.post(POST_MEMBER_API, member)
         //     .catch((err) => { console.error(err) });
         // this.props.history.push('/Team')
