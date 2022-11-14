@@ -5,21 +5,27 @@ const DELETE_MEMBER_API = "http://127.0.0.1:8000/api/member/"
 
 export default function Card(member) {
     const [errorMessage, setErrorMessage] = useState('');
-
     const handleOnDelet = (e) => {
         console.log("handleOnDelet");
         e.preventDefault();
 
-        console.log(DELETE_MEMBER_API);
-        axios({
-            method: 'delete',
-            url: DELETE_MEMBER_API + member.member.id,
-        }).then(function (response) {
-            console.log(response);
-        }).catch(function (error) {
-            console.log(error);
-        });
-
+        console.log("card")
+        console.log(member.member.id)
+        if (member.member.role === "0") {
+            setErrorMessage('Cannot delete Admin');
+        }
+        console.log(errorMessage);
+        console.log(errorMessage === "");
+        if (member.member.role === "1") {
+            axios({
+                method: 'delete',
+                url: DELETE_MEMBER_API + member.member.id,
+            }).then(function (response) {
+                console.log(response);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
 
         // axios.post(POST_MEMBER_API, member)
         //     .catch((err) => { console.error(err) });
