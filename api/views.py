@@ -66,7 +66,10 @@ def member_detail(request, pk):
 
     elif request.method == 'PUT':
         data = JSONParser().parse(request)
+        print("data")
+        print(data)
         serializer = MemberSerializer(member, data=data)
+        print(serializer.is_valid())
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data)

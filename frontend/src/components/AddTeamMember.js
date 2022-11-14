@@ -1,5 +1,5 @@
 import React from 'react'
-import Info from './Form'
+import Info from './FormCreate'
 
 export default function AddTeamMember() {
   return (

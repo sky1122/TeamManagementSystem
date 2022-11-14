@@ -2,60 +2,68 @@ import React, { useState } from "react";
 import axios from 'axios';
 
 
-const POST_MEMBER_API = "http://127.0.0.1:8000/api/member";
-export default function Info(memberProps) {
+const PUT_MEMBER_API = "http://127.0.0.1:8000/api/member/";
+export default function FormUpdate(Props) {
     let initialValues = {
         first_name: "",
         last_name: "",
         email: "",
         phone: ""
-      };
-    const {member} = memberProps
-    
-
-    if (member !== "None" || member !== undefined) {
-        initialValues = {
-            first_name: member.member.first_name,
-            last_name: member.member.last_name,
-            email: member.member.email,
-            phone: member.member.phone
-        }
-    }
-    console.log(initialValues)
-    const [values, setValues] = useState(initialValues);
-    const [checkedOption, setCheckedOption] = useState("1");
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setValues({
-        ...values,
-        [name]: value,
-      });
-      
     };
+    let checkedValue = "1";
 
+    const { member } = Props;
+    initialValues = {
+        first_name: member.member.first_name,
+        last_name: member.member.last_name,
+        email: member.member.email,
+        phone: member.member.phone
+    }
+    checkedValue = member.member.role;
+
+
+    const [values, setValues] = useState(initialValues);
+    const [checkedOption, setCheckedOption] = useState(checkedValue);
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setValues({
+            ...values,
+            [name]: value,
+        });
+
+    };
     const handleOptionChange = (e) => {
         setCheckedOption(e.target.value);
     }
 
     const handleOnSumbit = (e) => {
+        console.log("handleOnSumbit");
         e.preventDefault();
-        const member = {
-            first_name: values.firstName,
-            last_name: values.lastName,
+
+        const data = {
+            first_name: values.first_name,
+            last_name: values.last_name,
             email: values.email,
             phone: values.phone,
             role: checkedOption,
-            team: ""
+            id: member.member.id,
+            team: member.member.team
         };
-
-        axios.post(POST_MEMBER_API, member)
-             .catch((err) => { console.error(err) });
+        const id = member.member.id.toString().replace("\\", "");
+        axios({
+            method: 'put',
+            url: PUT_MEMBER_API + id,
+            data: data
+        }).then(function (response) {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        });
     };
-
 
     return (
         <div>
-            <div class="flex flex-col justify-center w-9/12">
+            <div className="flex flex-col justify-center w-9/12">
                 <form className='input-search' onSubmit={handleOnSumbit}>
                     <div><h2>Info</h2></div>
                     <div>
@@ -63,9 +71,9 @@ export default function Info(memberProps) {
                         <input
                             type="text"
                             placeholder="First Name"
-                            name="firstName"
+                            name="first_name"
                             onChange={handleInputChange}
-                            value={values.first_name}
+                            defaultValue={values.first_name === undefined ? "" : values.first_name}
                             className="input input-bordered w-full max-w-xs" />
                     </div>
                     <div>
@@ -73,9 +81,9 @@ export default function Info(memberProps) {
                         <input
                             type="text"
                             placeholder="Last Name"
-                            name="lastName"
+                            name="last_name"
                             onChange={handleInputChange}
-                            value={values.last_name}
+                            defaultValue={values.last_name === undefined ? "" : values.last_name}
                             className="input input-bordered w-full max-w-xs" />
                     </div>
                     <div>
@@ -85,17 +93,17 @@ export default function Info(memberProps) {
                             placeholder="Email"
                             name='email'
                             onChange={handleInputChange}
-                            value={values.email}
+                            defaultValue={values.email === undefined ? "" : values.email}
                             className="input input-bordered w-full max-w-xs" />
                     </div>
                     <div>
-                    <label>Phone</label>
+                        <label>Phone</label>
                         <input
                             type="text"
                             placeholder="Phone"
                             name='phone'
                             onChange={handleInputChange}
-                            value={values.phone}
+                            defaultValue={values.phone === undefined ? "" : values.phone}
                             className="input input-bordered w-full max-w-xs" />
                     </div>
 
@@ -106,12 +114,12 @@ export default function Info(memberProps) {
                                 <span className="label-text">Regulat - Can't delete members</span>
                                 <input
                                     type="radio"
-                                    name="radio-10" 
+                                    name="radio-10"
                                     value="1"
                                     checked={checkedOption === "1"}
                                     onChange={handleOptionChange}
                                     className="radio checked:bg-red-500"
-                                 />
+                                />
                             </label>
                         </div>
                         <div className="form-control">
@@ -123,11 +131,11 @@ export default function Info(memberProps) {
                                     value="0"
                                     checked={checkedOption === "0"}
                                     onChange={handleOptionChange}
-                                    className="radio checked:bg-blue-500"/>
+                                    className="radio checked:bg-blue-500" />
                             </label>
                         </div>
                     </div>
-                    <button className="btn btn-info" type='submit'>Info</button>
+                    <button className="btn btn-info" type='submit' >Update</button>
                 </form>
             </div>
 

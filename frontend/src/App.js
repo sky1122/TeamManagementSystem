@@ -1,6 +1,6 @@
 import './App.css';
 import {Routes, Route} from "react-router-dom";
-import AddTeamMember from './components/AddTeamMember';
+
 import Footer from './components/Footer';
 import Nav from './components/Nav';
 import TeamList from './components/TeamList';
