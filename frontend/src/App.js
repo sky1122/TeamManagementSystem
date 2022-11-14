@@ -5,15 +5,16 @@ import Footer from './components/Footer';
 import Nav from './components/Nav';
 import TeamList from './components/TeamList';
 import TeamMemberList from './components/TeamMemberList';
+import Home from './components/Home';
 function App() {
   return (
     <div className="App">
       <Nav />
       <Routes>
-      {/* <TeamMemberList/> */}
+      <Route path='/' element={<Home/>} />
       <Route path='/Team' element={<TeamList/>} />
       <Route path='Team/:TeamId' element={<TeamMemberList />} />
-      {/* <AddTeamMember/> */}
+
       </Routes>
       <Footer />
     </div>

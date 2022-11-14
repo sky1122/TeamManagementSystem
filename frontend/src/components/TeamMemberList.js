@@ -21,7 +21,7 @@ export default function TeamMemberList(team) {
   const memberNumbsers = members ? members.length : 0;
 
   return (
-    <div>
+    <div className='bg-blue-100'>
       <input type="checkbox" id="my-modal-3" className="modal-toggle" />
       <div className="modal">
         <div className="modal-box relative">
@@ -30,14 +30,16 @@ export default function TeamMemberList(team) {
           <Info teamId={teamId} />
         </div>
       </div>
-      <h1>Team {teamName}'s Members are:</h1>
-      <h2>There are {memberNumbsers} members in this team</h2>
+      <h1 className='text-2xl'>Team {teamName}'s Members are:</h1>
+      <h2 className='text-xl'>There are {memberNumbsers} members in this team</h2>
       <label htmlFor="my-modal-3" className="btn">Create a New member</label>
+      <div className='className=flex justify-center flex-wrap-reverse'>
       {members ? members.map((member) => {
         return (
           <MemberCard member={member} key={member.id} />
         )
       }) : null}
+      </div>
     </div>
   )
 }

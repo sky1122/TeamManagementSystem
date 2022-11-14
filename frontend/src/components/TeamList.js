@@ -13,7 +13,7 @@ export default function TeamList() {
     });
   }, []);
   return (
-    <div>
+    <div className='flex justify-center flex-wrap-reverse bg-blue-100'>
       {teams ? teams.map((team) => {
         return (
           <Link to={`/Team/${team.id}`} state={{teamId: team.id, teamName: team.name}}>
