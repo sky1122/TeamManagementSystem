@@ -52,7 +52,17 @@ export default function Info(Props) {
             flag = false
         }
 
+        var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        if (!values.email.match(validRegex)) {
+            setMessage("Please enter a valid email address");
+            flag = false;
+        }
 
+        var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+        if (!values.phone.match(re)) {
+            setMessage("Please enter a valid phone number");
+            flag = false;
+        }
         const member = {
             first_name: values.first_name,
             last_name: values.last_name,

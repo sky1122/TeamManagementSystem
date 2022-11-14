@@ -32,13 +32,15 @@ export default function TeamMemberList(team) {
       </div>
       <h1 className='text-2xl'>Team {teamName}'s Members are:</h1>
       <h2 className='text-xl'>There are {memberNumbsers} members in this team</h2>
-      <label htmlFor="my-modal-3" className="btn">Create a New member</label>
+      <label htmlFor="my-modal-3" className="btn  mb-5">Create a New member</label>
       <div className='className=flex justify-center flex-wrap-reverse'>
-      {members ? members.map((member) => {
-        return (
-          <MemberCard member={member} key={member.id} />
-        )
-      }) : null}
+        {members ? members.map((member) => {
+          return (
+            <div className="flex justify-center">
+            <MemberCard member={member} key={member.id} />
+            </div>
+          )
+        }) : null}
       </div>
     </div>
   )

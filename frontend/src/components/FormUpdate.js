@@ -38,8 +38,9 @@ export default function FormUpdate(Props) {
     }
 
     const handleOnSumbit = (e) => {
+        console.log("handleOnSumbit");
         e.preventDefault();
-
+        let flag = true;
         const data = {
             first_name: values.first_name,
             last_name: values.last_name,
@@ -50,21 +51,36 @@ export default function FormUpdate(Props) {
             team: member.member.team
         };
         const id = member.member.id.toString().replace("\\", "");
-        axios({
-            method: 'put',
-            url: PUT_MEMBER_API + id,
-            data: data
-        }).then(function (response) {
-            console.log(response);
-            if (response.status === 200) {
-                setErrorMessage("Member updated successfully");
-                window.location.reload();
-            } else {
-                setErrorMessage("Error updating member");
-            }
-        }).catch(function (error) {
-            console.log(error);
-        });
+
+        var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        if (!values.email.match(validRegex)) {
+            setErrorMessage("Please enter a valid email address");
+            flag = false;
+        }
+        var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+        if (!values.phone.match(re)) {
+            setErrorMessage("Please enter a valid phone number");
+            flag = false;
+        }
+
+
+        if (flag) {
+            axios({
+                method: 'put',
+                url: PUT_MEMBER_API + id,
+                data: data
+            }).then(function (response) {
+                console.log(response);
+                if (response.status === 200) {
+                    setErrorMessage("Member updated successfully");
+                    window.location.reload();
+                } else {
+                    setErrorMessage("Error updating member");
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
     };
 
     return (

@@ -41,7 +41,7 @@ export default function Card(member) {
                 </div>
             </div>
 
-            <div className="card card-side bg-base-100 shadow-xl w-96">
+            <div className="card card-side bg-base-100 shadow-xl w-96 mb-5">
                 <figure>
                     <img src="https://placeimg.com/192/192/people" />
                 </figure>
